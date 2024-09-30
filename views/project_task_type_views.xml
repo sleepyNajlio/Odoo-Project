@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="project_task_type_inherited_form" model="ir.ui.view">
+    <field name="name">project.task.type.inherited.form</field>
+    <field name="model">project.task.type</field>
+    <field name="inherit_id" ref="project.task_type_edit"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='project_ids']" position="after">
+          <field name="allow_create"/>
+					<field name="required_estimation"/>
+        </xpath>
+    </field>
+	</record>
+	<!-- Tree View -->
+	<record id="project_task_type_inherited_tree_custom" model="ir.ui.view">
+    <field name="name">project.task.type.inherited.tree.custom</field>
+    <field name="model">project.task.type</field>
+    <field name="inherit_id" ref="project.task_type_tree_inherited"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='project_ids']" position="after">
+          <field name="allow_create"/>
+					<field name="required_estimation"/>
+        </xpath>
+    </field>
+	</record>
+
+</odoo>

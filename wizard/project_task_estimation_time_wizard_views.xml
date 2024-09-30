@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="project_task_estimation_time_wizard_view_form" model="ir.ui.view">
+		<field name="name">project.task.estimation.time.wizard.view.form</field>
+		<field name="model">project.task.estimation.time.wizard</field>
+		<field name="arch" type="xml">
+				<form string="Estimation Time Wizard">
+					<form string="Estimation Time Wizard">
+						<group>
+								<field name="task_id"/>
+								<field name="estimation_time"/>
+						</group>
+						<footer>
+								<button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+								<button string="Cancel" class="btn-secondary" special="cancel"/>
+						</footer>
+					</form>	
+				</form>
+		</field>
+	</record>
+	<record id="action_project_task_estimation_time_wizard" model="ir.actions.act_window">
+    <field name="name">Estimation time</field>
+    <field name="res_model">project.task.estimation.time.wizard</field>
+    <field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+</odoo>
