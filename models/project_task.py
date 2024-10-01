@@ -13,19 +13,6 @@ class ProjectTask(models.Model):
 	stage_sequence = fields.Integer(related='stage_id.sequence')
 
 
-	# open wizard to set the allocated hours
-	def open_estimation_time_wizard(self):
-		return {
-			'type': 'ir.actions.act_window',
-			'name': 'Estimation Time Wizard',
-			'view_mode': 'form',
-			'res_model': 'project.task.estimation.time.wizard',
-			'target': 'new',
-			'context': {
-				'default_task_id': self.id,
-			}
-		}
-
 	@api.depends('user_ids')
 	def _compute_current_user_id(self):
 		for task in self:
@@ -60,18 +47,16 @@ class ProjectTask(models.Model):
 					raise UserError('You must set the allocated hours for this task before moving it to ' + str(task_type.name))
 				elif not self.start_time:
 					self.start_time = datetime.now()
-					# print("start time: " + str(self.start_time))
 		elif self.stage_id.required_estimation:
 			if 'allocated_hours' in vals.keys() and vals['allocated_hours'] <= 0:
-				raise UserError(" You can't change the allocated hours of this task")
+				raise UserError("You can't change the allocated hours of this task")
 		return super().write(vals)
 
 	def timesheet_tracking_check(self):
 		print("timesheet tracking check")
 		timesheets = self.env['account.analytic.line'].search([('date', '=', datetime.now().date() - timedelta(days=1))])
-		# get all timesheets
-		# timesheets = self.env['account.analytic.line'].search([])
-		# get all users with assigned tasks
+
+		# Getting all tasks and their assigned users
 		tasks = self.env['project.task'].search([])
 		users = []
 		for task in tasks:
@@ -79,36 +64,28 @@ class ProjectTask(models.Model):
 				if user not in users:
 					users.append(user)
 
-		print("users : " + str(users))
-		## Grouping timesheets by user
-		# print group timesheets users
-		# for user in users:
-		# 	print("user : " + str(user.name))
-		# groupe_timesheets = {}
-		# for timesheet in timesheets:
-		# 	if timesheet.user_id in groupe_timesheets.keys():
-		# 		groupe_timesheets[timesheet.user_id] = groupe_timesheets[timesheet.user_id] + timesheet.unit_amount
-		# 	else:
-		# 		groupe_timesheets[timesheet.user_id] = timesheet.unit_amount
-		# for user in users:
-		# 	if user.user_id not in groupe_timesheets.keys():
-		# 		groupe_timesheets[user.user_id] = 0
-		#
-		# for user in groupe_timesheets.keys():
-		# 	print(str(user.name) + " : " + str(groupe_timesheets[user]))
-		#
-		# for user in groupe_timesheets.keys():
-		# 	if groupe_timesheets[user] < 6.5:
-		# 		print('send reminder to ' + str(user.name))
-		# 		self._send_timesheet_reminder(user)
+		# Grouping timesheets by user
+		group_timesheets = {}
+		for timesheet in timesheets:
+			if timesheet.user_id in group_timesheets.keys():
+				group_timesheets[timesheet.user_id] = group_timesheets[timesheet.user_id] + timesheet.unit_amount
+			else:
+				group_timesheets[timesheet.user_id] = timesheet.unit_amount
+
+		# Adding users with no timesheet
+		for user in users:
+			if user not in group_timesheets.keys():
+				group_timesheets[user] = 0
+
+		# Sending reminder to users with less than 6.5 hours of timesheet
+		for user in group_timesheets.keys():
+			if group_timesheets[user] < 6.5:
+				print('send reminder to ' + str(user.name))
+				self._send_timesheet_reminder(user)
 
 	def _send_timesheet_reminder(self, user):
-		print(user.partner_id)
-		# user.notify_success(message='My success message')
-		# Create the message body
 		message_body = f"Dear {user.name},\n\nYou have logged less than 7 hours of timesheet entries for yesterday. Please ensure your timesheet is up to date."
-		
-		# Send the discussion message to the user
+
 		user.partner_id.message_post(
 				body=message_body,
 				subject="Timesheet Reminder",
