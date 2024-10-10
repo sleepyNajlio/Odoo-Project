@@ -1,1 +1,1 @@
-from . import project_task_estimation_time_wizard
+from . import sprint_wizard

@@ -7,8 +7,8 @@ class ProjectTaskType(models.Model):
 	allow_create = fields.Boolean(default=False)
 	required_estimation = fields.Boolean(default=False)
 
-	def write(self, vals):
-		print('write method -----------' + str(vals))
-		if 'sequence' in vals.keys():
-			raise UserError('You are not allowed to change the sequence of a task type')
-		return super().write(vals)
+	# def write(self, vals):
+	# 	# print('write method -----------' + str(vals))
+	# 	# if 'sequence' in vals.keys():
+		# 	raise UserError('You are not allowed to change the sequence of a task type')
+		# return super().write(vals)
