@@ -33,7 +33,7 @@ class ProjectTask(models.Model):
 		else:
 			return super().create(vals)
 	def write(self, vals):
-		print('write method for task: ' + str(self.name) + '-----------' + str(vals))
+		# print('write method for task: ' + str(self.name) + '-----------' + str(vals))
 		# Estimation time validation
 		if 'stage_id' in vals.keys():
 			task_type = self.env['project.task.type'].browse(vals['stage_id'])
@@ -55,14 +55,23 @@ class ProjectTask(models.Model):
 
 	def timesheet_tracking_check(self):
 		print("timesheet tracking check")
-		timesheets = self.env['account.analytic.line'].search([('date', '=', datetime.now().date() - timedelta(days=1))])
 
 		# Getting current week start and end dates
 		today = datetime.now().date()
 		start_of_week = today - timedelta(days=today.weekday())
 		end_of_week = start_of_week + timedelta(days=4)
+		timesheets = self.env['account.analytic.line'].search([('date', '>=', start_of_week), ('date', '>=', end_of_week)])
+		users = self.env['res.users'].search([])
 
-		print("start_of_week: " + str(start_of_week) + " end_of_week: " + str(end_of_week) + " today: " + str(today))
+		# Grouping timesheets by user
+		group_timesheets = {}
+		for timesheet in timesheets:
+			if timesheet.user_id in group_timesheets.keys():
+				group_timesheets[timesheet.user_id] = group_timesheets[timesheet.user_id] + timesheet.unit_amount
+			else:
+				group_timesheets[timesheet.user_id] = timesheet.unit_amount
+
+
 
 
 		# Getting all accepted tasks and their assigned users

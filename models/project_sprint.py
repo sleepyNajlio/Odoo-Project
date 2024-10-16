@@ -20,25 +20,33 @@ class ProjectSprint(models.Model):
         ('done', 'Done'),
         ('canceled', 'Canceled')
     ], string='State', default='draft')
-
+    tasks_count = fields.Integer(string='Task Count', compute='_compute_tasks_count')
 
     @api.depends('task_ids')
+    def _compute_tasks_count(self):
+        for sprint in self:
+            sprint.tasks_count = len(sprint.task_ids)
+
+
+    @api.depends('task_ids.progress')
     def _compute_sprint_progress(self):
         for sprint in self:
-            if sprint.task_ids:
+            if sprint.task_ids :
                 total_hours = sum(task.allocated_hours for task in sprint.task_ids)
                 spent_hours = sum(task.effective_hours for task in sprint.task_ids)
-                sprint.progress = (spent_hours / total_hours) * 100
+                if total_hours > 0:
+                    sprint.progress = (spent_hours / total_hours) * 100
             else:
                 sprint.progress = 0
+        print("total: " + str(total_hours) + " - spent: " + str(spent_hours) + " - gh repo view --json url --jq '.url'gh repo view --json url --jq '.url'gh repo view --json url --jq '.url'progress: " + str(sprint.progress))
 
     @staticmethod
     def _get_start_date():
         today = datetime.now().date()
         if today.weekday() > 3:
-            return today + timedelta(days=7 - today.weekday())
+            return today + timedelta(days= 7 - today.weekday())
         else:
-            return today - timedelta(days=today.weekday())
+            return today - timedelta(days= today.weekday())
 
     # Button Actions
     def action_start_sprint(self):

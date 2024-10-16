@@ -18,6 +18,7 @@
                 <field name="project_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
+                <field name="tasks_count"/>
                 <field name="progress" widget="progressbar"/>
                 <field name="state" widget="badge" decoration-success="state == 'done'"
                        decoration-info="state == 'draft'" decoration-warning="state == 'in_progress'"
@@ -44,7 +45,7 @@
                         <field name="start_date"/>
                         <field name="end_date"/>
                         <field name="description"/>
-                        <field name="user_ids"/>
+                        <field name="user_ids" domain="[('state', '=', 'active')]"/>
                         <field name="task_ids" string="Tasks" domain="[('project_id', '=', project_id)]">
                             <tree>
                                 <field name="name" string="Title"/>
