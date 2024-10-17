@@ -38,7 +38,6 @@ class ProjectSprint(models.Model):
                     sprint.progress = (spent_hours / total_hours) * 100
             else:
                 sprint.progress = 0
-        print("total: " + str(total_hours) + " - spent: " + str(spent_hours) + " - gh repo view --json url --jq '.url'gh repo view --json url --jq '.url'gh repo view --json url --jq '.url'progress: " + str(sprint.progress))
 
     @staticmethod
     def _get_start_date():

@@ -46,7 +46,7 @@
                         <field name="end_date"/>
                         <field name="description"/>
                         <field name="user_ids" domain="[('state', '=', 'active')]"/>
-                        <field name="task_ids" string="Tasks" domain="[('project_id', '=', project_id)]">
+                        <field name="task_ids" string="Tasks" domain="[('project_id', '=', project_id)]" can_write="0">
                             <tree>
                                 <field name="name" string="Title"/>
                                 <field name="description"/>

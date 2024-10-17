@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="project_project_view_form_simplified_stages" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.stages</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="mode" >extension</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='alias_def']" position="before">
+                <div>
+                    <label for="project_template_id" string="Project template "/>
+                    <field name="project_template_id"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_project_view_form_stages" model="ir.ui.view">
+        <field name="name">project.project.view.form.stages</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="mode" >extension</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="project_template_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -14,6 +14,8 @@
         'views/project_task_views.xml',
 		'data/ir_cron_data.xml',
         'views/project_sprint_views.xml',
+        'views/project_template_views.xml',
+        'views/project_project_views.xml'
 
     ],
     'installable': True,
