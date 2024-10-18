@@ -6,8 +6,8 @@ class ProjectProject(models.Model):
     project_template_id = fields.Many2one('project.template', string='Project Template')
     business_analyst_id = fields.Many2one('res.users', string="Business Analyst")
     code_review_id = fields.Many2one('res.users', string="Code Review")
-    business_analyse_allocated_time = fields.Integer(default=0, string="Allocated Time for business Analyse")
-    code_review_allocated_time =fields.Integer(default=0, string="Allocated Time for Code Review")
+    analyse_hours_pc = fields.Integer(string="Business Analyse Allocated Time (%)", required=True)
+    review_hours_pc =fields.Integer(string="Code Review Allocated Time (%)", required=True)
 
     @api.model
     def create(self, vals):
@@ -22,4 +22,10 @@ class ProjectProject(models.Model):
         return project
 
 
+    @api.constrains('analyse_hours_pc', 'review_hours_pc')
+    def check_percentage(self):
+        if self.analyse_hours_pc < 0 or self.analyse_hours_pc > 100:
+            raise ValueError("The business analyse allocated time must be between 0 and 100")
+        if self.review_hours_pc < 0 or self.review_hours_pc > 100:
+            raise ValueError("The code review allocated time must be between 0 and 100")
 
