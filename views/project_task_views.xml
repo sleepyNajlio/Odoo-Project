@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--  form view  -->
+	<record id="project_task_inherited_form" model="ir.ui.view">
+    <field name="name">project.task.inherited.form</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='description']" position="replace">
+          <field name="client_description" type="html" placeholder="Client description..."/>
+          <field name="dev_description" type="html" placeholder="Developer description..."/>
+        </xpath>
+        <xpath expr="//field[@name='tag_ids']" position="after">
+            <field name="current_user_id" invisible="1"/>
+            <field name="stage_sequence" invisible="1"/>
+            <field name="is_accepted" invisible="1"/>
+            <button type="object" name="accept_task" invisible="is_accepted == True or stage_sequence &gt; 3 or current_user_id not in user_ids" icon="fa-play" >accept</button>
+        </xpath>
+    </field>
+	</record>
+    <!--  search view  -->
+    <record id="project_task_inherited_search_view" model="ir.ui.view">
+    <field name="name">project.task.inherited.search.view</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_search_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//filter[@name='inactive']" position="after">
+          <filter string="Changed this day" name="changed_today" domain="[('write_date','>=',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+            <filter string="Changed this week" name="changed_this_week" domain="[('write_date','>=',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00',datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')))]"/>
+            <filter string="Changed this month" name="changed_this_month" domain="[('write_date','>=',datetime.datetime.now().strftime('%Y-%m-01 00:00:00'))]"/>
+        </xpath>
+    </field>
+	</record>
+
+
+</odoo>

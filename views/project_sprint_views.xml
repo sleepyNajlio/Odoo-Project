@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--   sprint actions  -->
+    <record id="sprint_action" model="ir.actions.act_window">
+        <field name="name">Sprints</field>
+        <field name="res_model">project.sprint</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--    sprint menu     -->
+    <menuitem id="menu_sprint" name="Sprints" parent="project.menu_main_pm" sequence="111" action="sprint_action" />
+    <!--    sprint views    -->
+    <record id="sprint_tree_view" model="ir.ui.view">
+        <field name="name">project.sprint.tree</field>
+        <field name="model">project.sprint</field>
+        <field name="arch" type="xml">
+            <tree string="Sprints">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="tasks_count"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-info="state == 'draft'" decoration-warning="state == 'in_progress'"
+                       decoration-danger="state == 'canceled'" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="sprint_form_view" model="ir.ui.view">
+        <field name="name">project.sprint.form</field>
+        <field name="model">project.sprint</field>
+        <field name="arch" type="xml">
+            <form string="Sprint">
+                <header>
+                    <button name="action_start_sprint" string="Start" type="object" class="btn-primary" icon="fa-play" invisible="state in ['canceled','done','in_progress']"/>
+                    <button name="action_done_sprint" string="Mark as Done" type="object" class="btn-success"  icon="fa-check" invisible="state in ['done','canceled','draft']"/>
+                    <button name="action_cancel_sprint" string="Cancel" type="object" class="btn-danger"  icon="fa-ban" invisible="state in ['done','canceled']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="project_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="description"/>
+                        <field name="user_ids" domain="[('state', '=', 'active')]"/>
+                        <field name="task_ids" string="Tasks" domain="[('project_id', '=', project_id)]" can_write="0">
+                            <tree>
+                                <field name="name" string="Title"/>
+                                <field name="description"/>
+                                <field name="stage_id"/>
+                                <field name="progress" widget="progressbar"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>
