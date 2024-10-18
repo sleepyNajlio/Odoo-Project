@@ -1,4 +1,6 @@
+
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
@@ -25,7 +27,7 @@ class ProjectProject(models.Model):
     @api.constrains('analyse_hours_pc', 'review_hours_pc')
     def check_percentage(self):
         if self.analyse_hours_pc < 0 or self.analyse_hours_pc > 100:
-            raise ValueError("The business analyse allocated time must be between 0 and 100")
+            raise ValidationError("The business analyse allocated time must be between 0 and 100")
         if self.review_hours_pc < 0 or self.review_hours_pc > 100:
-            raise ValueError("The code review allocated time must be between 0 and 100")
+            raise ValidationError("The code review allocated time must be between 0 and 100")
 

@@ -7,10 +7,19 @@
         <field name="mode" >extension</field>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='alias_def']" position="before">
-                <div>
-                    <label for="project_template_id" string="Project template "/>
+                <group>
                     <field name="project_template_id"/>
-                </div>
+                </group>
+                <group col="2">
+                    <group>
+                        <field name="business_analyst_id" widget="many2one_avatar_user"/>
+                        <field name="analyse_hours_pc" />
+                    </group>
+                    <group>
+                        <field name="code_review_id" widget="many2one_avatar_user"/>
+                        <field name="review_hours_pc"/>
+                    </group>
+                </group>
             </xpath>
         </field>
     </record>

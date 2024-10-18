@@ -11,10 +11,11 @@
           <field name="client_description" type="html" placeholder="Client description..."/>
           <field name="dev_description" type="html" placeholder="Developer description..."/>
         </xpath>
-        <!--   allocated time for review and analyse     -->
-        <xpath expr="//label[@for='date_deadline']" position="before">
-                <field name="analyse_hours" widget="timesheet_uom_no_toggle"/>
-                <field name="review_hours" widget="timesheet_uom_no_toggle"/>
+        <!--   allocated time for dev, review and analyse     -->
+        <xpath expr="//field[@name='partner_id']" position="after">
+            <field name="dev_hours" widget="timesheet_uom_no_toggle"/>
+            <field name="analyse_hours" widget="timesheet_uom_no_toggle"/>
+            <field name="review_hours" widget="timesheet_uom_no_toggle"/>
         </xpath>
         <xpath expr="//field[@name='tag_ids']" position="after">
             <field name="current_user_id" invisible="1"/>

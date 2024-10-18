@@ -10,20 +10,27 @@ class ProjectTask(models.Model):
 	is_accepted = fields.Boolean(string='Is Accepted', default=False, tracking=True)
 	current_user_id = fields.Many2one('res.users', string='Current User', compute='_compute_current_user_id')
 	stage_sequence = fields.Integer(related='stage_id.sequence')
+	dev_hours = fields.Float(string='Developer Hours', tracking=True)
 	analyse_hours = fields.Float(string='Analyse Hours', compute='_compute_analyse_hours')
 	review_hours = fields.Float(string='Review Hours', compute='_compute_review_hours')
+	allocated_hours = fields.Float("Total Allocated Time", compute="_compute_allocated_hours", tracking=True)
 
-	@api.depends('allocated_hours')
+	@api.depends('dev_hours')
 	def _compute_analyse_hours(self):
 		project = self.env['project.project'].browse(self.project_id.id)
 		for task in self:
-			task.analyse_hours = task.allocated_hours * project.analyse_hours_pc / 100
+			task.analyse_hours = task.dev_hours * project.analyse_hours_pc / 100
 
-	@api.depends('allocated_hours')
+	@api.depends('dev_hours')
 	def _compute_review_hours(self):
 		project = self.env['project.project'].browse(self.project_id.id)
 		for task in self:
-			task.review_hours = task.allocated_hours * project.review_hours_pc / 100
+			task.review_hours = task.dev_hours * project.review_hours_pc / 100
+
+	@api.depends('dev_hours', 'analyse_hours', 'review_hours')
+	def _compute_allocated_hours(self):
+		for task in self:
+			task.allocated_hours = task.dev_hours + task.analyse_hours + task.review_hours
 
 	@api.depends('user_ids')
 	def _compute_current_user_id(self):
