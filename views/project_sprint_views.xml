@@ -19,7 +19,7 @@
                 <field name="start_date"/>
                 <field name="end_date"/>
                 <field name="tasks_count"/>
-                <field name="progress" widget="progressbar"/>
+                <field name="progress" widget="project_task_progressbar" options="{'overflow_class': 'bg-danger'}"/>
                 <field name="state" widget="badge" decoration-success="state == 'done'"
                        decoration-info="state == 'draft'" decoration-warning="state == 'in_progress'"
                        decoration-danger="state == 'canceled'" />
@@ -62,7 +62,7 @@
                                 <field name="name" string="Title"/>
                                 <field name="description"/>
                                 <field name="stage_id"/>
-                                <field name="progress" widget="project_task_progressbar"/>
+                                <field name="progress" widget="project_task_progressbar" options="{'overflow_class': 'bg-danger'}"/>
                             </tree>
                         </field>
                     </group>
