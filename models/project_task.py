@@ -17,15 +17,17 @@ class ProjectTask(models.Model):
 
 	@api.depends('dev_hours')
 	def _compute_analyse_hours(self):
-		project = self.env['project.project'].browse(self.project_id.id)
-		for task in self:
-			task.analyse_hours = task.dev_hours * project.analyse_hours_pc / 100
+		for rec in self:
+			project = self.env['project.project'].browse(rec.project_id.id)
+			for task in rec:
+				task.analyse_hours = task.dev_hours * project.analyse_hours_pc / 100
 
 	@api.depends('dev_hours')
 	def _compute_review_hours(self):
-		project = self.env['project.project'].browse(self.project_id.id)
-		for task in self:
-			task.review_hours = task.dev_hours * project.review_hours_pc / 100
+		for rec in self:
+			project = self.env['project.project'].browse(rec.project_id.id)
+			for task in rec:
+				task.review_hours = task.dev_hours * project.review_hours_pc / 100
 
 	@api.depends('dev_hours', 'analyse_hours', 'review_hours')
 	def _compute_allocated_hours(self):

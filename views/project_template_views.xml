@@ -30,8 +30,8 @@
                 </group>
                 <field name="task_type_ids">
                     <tree>
+                        <field name="sequence" widget="handle"/>
                         <field name="name"/>
-                        <field name="sequence" />
                         <field name="fold" />
                         <field name="allow_create" />
                         <field name="required_estimation" />

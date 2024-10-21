@@ -23,6 +23,7 @@
                 <field name="allow_create"/>
                 <field name="required_estimation"/>
                 <field name="required_timesheet"/>
+                <field name="sequence" widget="handle"/>
             </xpath>
         </field>
     </record>

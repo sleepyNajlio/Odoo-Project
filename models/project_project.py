@@ -14,13 +14,13 @@ class ProjectProject(models.Model):
     @api.model
     def create(self, vals):
         project = super().create(vals)
-        print('project: ' + str(vals))
+        # print('project: ' + str(vals))
         if 'project_template_id' in vals.keys() and vals['project_template_id']:
             project_template = self.env['project.template'].browse(vals['project_template_id'])
             stage_ids = project_template.task_type_ids
-            print('stages: ' + str(stage_ids.mapped('id')))
+            # print('stages: ' + str(stage_ids.mapped('id')))
             project.type_ids = stage_ids
-            print("type_ids: " + str(project.type_ids))
+            # print("type_ids: " + str(project.type_ids))
         return project
 
 

@@ -6,7 +6,7 @@ class ProjectSprint(models.Model):
     _description = 'Sprint'
     _order = 'start_date desc , end_date asc'
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description')
     project_id = fields.Many2one('project.project', string='Project', required=True)
     start_date = fields.Date(string='Start Date', required=True, default=lambda self:  self._get_start_date())
@@ -21,6 +21,14 @@ class ProjectSprint(models.Model):
         ('canceled', 'Canceled')
     ], string='State', default='draft')
     tasks_count = fields.Integer(string='Task Count', compute='_compute_tasks_count')
+    start_stage_id = fields.Many2one('project.task.type', string='Start Stage', domain="[('project_ids', '=', project_id)]", required=True)
+    cancel_stage_id = fields.Many2one('project.task.type', string='Cancel Stage', domain="[('project_ids', '=', project_id)]", required=True)
+    start_stage_sequence = fields.Integer(related='start_stage_id.sequence', store=True)
+
+
+    @api.onchange('start_stage_id')
+    def _onchange_start_stage_id(self):
+        print("start_stage_id: " + str(self.start_stage_id) + str())
 
     @api.depends('task_ids')
     def _compute_tasks_count(self):
@@ -50,18 +58,15 @@ class ProjectSprint(models.Model):
     # Button Actions
     def action_start_sprint(self):
         for record in self:
-            sprint_stage = record.env['project.task.type'].search([('name', '=', 'Sprint')])
             record.state = 'in_progress'
             for task in record.task_ids:
-                task.write({'stage_id': sprint_stage.id})
+                task.write({'stage_id': record.start_stage_id.id})
 
     def action_cancel_sprint(self):
         for record in self:
-            backlog_stage = record.env['project.task.type'].search([('name', '=', 'Backlog')])
             record.state = 'canceled'
             for task in record.task_ids:
-                if task.stage_id.name == 'Sprint':
-                    task.write({'stage_id': backlog_stage.id})
+                task.write({'stage_id': record.cancel_stage_id.id})
 
     def action_done_sprint(self):
         for record in self:
