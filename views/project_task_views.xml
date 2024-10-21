@@ -21,7 +21,8 @@
             <field name="current_user_id" invisible="1"/>
             <field name="stage_sequence" invisible="1"/>
             <field name="is_accepted" invisible="1"/>
-            <button type="object" name="accept_task" invisible="is_accepted == True or stage_sequence &gt; 3 or current_user_id not in user_ids" icon="fa-play" >accept</button>
+            <field name="hide_accept_button" invisible="1"/>
+            <button type="object" name="accept_task" invisible="hide_accept_button" icon="fa-play" >accept</button>
         </xpath>
     </field>
 	</record>

@@ -14,6 +14,14 @@ class ProjectTask(models.Model):
 	analyse_hours = fields.Float(string='Analyse Hours', compute='_compute_analyse_hours')
 	review_hours = fields.Float(string='Review Hours', compute='_compute_review_hours')
 	allocated_hours = fields.Float("Total Allocated Time", compute="_compute_allocated_hours", tracking=True)
+	hide_accept_button = fields.Boolean(compute='_compute_hide_accept_button')
+
+	@api.depends('write_date', 'stage_id', 'current_user_id', 'user_ids')
+	def _compute_hide_accept_button(self):
+		for task in self:
+			required_estimation = task.stage_id.required_estimation
+			task.hide_accept_button = task.is_accepted  or required_estimation or (task.current_user_id not in task.user_ids)
+
 
 	@api.depends('dev_hours')
 	def _compute_analyse_hours(self):
@@ -55,7 +63,8 @@ class ProjectTask(models.Model):
 		else:
 			return super().create(vals)
 	def write(self, vals):
-		print('write method for task: ' + str(self.name) + '-----------' + str(vals))
+		# print('write method for task: ' + str(self.name) + '-----------' + str(vals))
+		# print("timesheet: " + str(self.timesheet_ids == False) )
 		# Estimation time validation
 		if 'stage_id' in vals.keys():
 			task_type = self.env['project.task.type'].browse(vals['stage_id'])
@@ -64,13 +73,15 @@ class ProjectTask(models.Model):
 					raise UserError('You must accept this task before moving it to ' + str(task_type.name))
 				elif self.is_accepted == False and 'is_accepted' not in vals.keys():
 					raise UserError('You must accept this task before moving it to ' + str(task_type.name))
-				elif self.allocated_hours <= 0 and 'allocated_hours' not in vals.keys():
-					raise UserError('You must set the allocated hours for this task before moving it to ' + str(task_type.name))
-				elif 'allocated_hours' in vals.keys() and vals['allocated_hours'] <= 0:
-					raise UserError('You must set the allocated hours for this task before moving it to ' + str(task_type.name))
+			if task_type.required_timesheet:
+				if 'timesheet_ids' in vals.keys() and len(vals['timesheet_ids']) == 0:
+					raise UserError('You must log timesheet entries before moving this task to ' + str(task_type.name))
+				elif len(self.timesheet_ids) == 0 and 'timesheet_ids' not in vals.keys():
+					raise UserError('You must log timesheet entries before moving this task to ' + str(task_type.name))
 		elif self.stage_id.required_estimation:
 			if 'allocated_hours' in vals.keys() and vals['allocated_hours'] <= 0:
 				raise UserError("only Strictly positive numbers")
+
 		return super().write(vals)
 
 	def timesheet_tracking_check(self):

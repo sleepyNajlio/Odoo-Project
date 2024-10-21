@@ -11,6 +11,7 @@ class ProjectProject(models.Model):
     analyse_hours_pc = fields.Integer(string="Business Analyse Allocated Time (%)", required=True)
     review_hours_pc =fields.Integer(string="Code Review Allocated Time (%)", required=True)
 
+
     @api.model
     def create(self, vals):
         project = super().create(vals)

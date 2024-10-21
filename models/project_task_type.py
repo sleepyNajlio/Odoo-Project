@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 from odoo.exceptions import UserError
 
 class ProjectTaskType(models.Model):
@@ -7,6 +7,10 @@ class ProjectTaskType(models.Model):
 	allow_create = fields.Boolean(default=False)
 	required_estimation = fields.Boolean(default=False)
 	required_timesheet = fields.Boolean(default=False)
+	
+
+
+
 
 	# def write(self, vals):
 	# 	# print('write method -----------' + str(vals))

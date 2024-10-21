@@ -9,5 +9,3 @@ class ProjectTemplate(models.Model):
 
 
 
-
-
