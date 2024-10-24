@@ -2,69 +2,68 @@
 <odoo>
 	<data>
 		<!-- Gestion -->
-		<record id="project_task_type_gestion" model="project.task.type">
+		<record id="task_type_gestion" model="project.task.type">
 			<field name="name">Gestion</field>
-			<field name="sequence">1</field>
-			<field name="fold">True</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- Backlog -->
-		<record id="project_task_type_backlog" model="project.task.type">
-			<field name="name">Backlog</field>
 			<field name="sequence">2</field>
 			<field name="fold">True</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
+			<field name="user_id">1</field>
 		</record>
-		<!-- TODO -->
-		<record id="project_task_type_todo" model="project.task.type">
-			<field name="name">TODO</field>
-			<field name="sequence">3</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- sprint -->
-		<record id="project_task_type_sprint" model="project.task.type">
-			<field name="name">Sprint</field>
-			<field name="sequence">4</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- Analyse -->
-		<record id="project_task_type_analyse" model="project.task.type">
-			<field name="name">Analyse</field>
-			<field name="sequence">5</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- En cours -->
-		<record id="project_task_type_en_cours" model="project.task.type">
-			<field name="name">En cours</field>
-			<field name="sequence">6</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- In Review -->
-		<record id="project_task_type_in_review" model="project.task.type">
-			<field name="name">In Review</field>
-			<field name="sequence">7</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- MED -->
-		<record id="project_task_type_med" model="project.task.type">
-			<field name="name">MED</field>
-			<field name="sequence">8</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
-		<!-- MEP -->
-		<record id="project_task_type_mep" model="project.task.type">
-			<field name="name">MEP</field>
-			<field name="sequence">9</field>
-			<field name="user_id">2</field>
-			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>
-		</record>
+		<!-- Backlog -->
+<!--		<record id="project_task_type_backlog" model="project.task.type">-->
+<!--			<field name="name">Backlog</field>-->
+<!--			<field name="sequence">2</field>-->
+<!--			<field name="fold">True</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; TODO &ndash;&gt;-->
+<!--		<record id="project_task_type_todo" model="project.task.type">-->
+<!--			<field name="name">TODO</field>-->
+<!--			<field name="sequence">3</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; sprint &ndash;&gt;-->
+<!--		<record id="project_task_type_sprint" model="project.task.type">-->
+<!--			<field name="name">Sprint</field>-->
+<!--			<field name="sequence">4</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; Analyse &ndash;&gt;-->
+<!--		<record id="project_task_type_analyse" model="project.task.type">-->
+<!--			<field name="name">Analyse</field>-->
+<!--			<field name="sequence">5</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; En cours &ndash;&gt;-->
+<!--		<record id="project_task_type_en_cours" model="project.task.type">-->
+<!--			<field name="name">En cours</field>-->
+<!--			<field name="sequence">6</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; In Review &ndash;&gt;-->
+<!--		<record id="project_task_type_in_review" model="project.task.type">-->
+<!--			<field name="name">In Review</field>-->
+<!--			<field name="sequence">7</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; MED &ndash;&gt;-->
+<!--		<record id="project_task_type_med" model="project.task.type">-->
+<!--			<field name="name">MED</field>-->
+<!--			<field name="sequence">8</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
+<!--		&lt;!&ndash; MEP &ndash;&gt;-->
+<!--		<record id="project_task_type_mep" model="project.task.type">-->
+<!--			<field name="name">MEP</field>-->
+<!--			<field name="sequence">9</field>-->
+<!--			<field name="user_id">2</field>-->
+<!--			<field name="project_ids" eval="[(6, 0, [ref('project_colaimo')])]"/>-->
+<!--		</record>-->
 	</data>
 </odoo>

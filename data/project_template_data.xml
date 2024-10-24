@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="leansoft_template_data" model="project.template">
+			<field name="name">leansoft_template_data</field>
+			<field name="task_type_ids" eval="[(6, 0, [ref('task_type_gestion')])]"/>
+		</record>
+	</data>
+
+</odoo>

@@ -13,7 +13,11 @@
         'views/project_sprint_views.xml',
         'views/project_template_views.xml',
         'views/project_project_views.xml',
+        'data/mail_template_data.xml',
         'data/ir_cron_data.xml',
+
+        # 'data/task_type_data.xml',
+        # 'data/project_template_data.xml',
     ],
     'installable': True,
     'application': True,
