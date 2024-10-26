@@ -15,7 +15,6 @@
         'views/project_project_views.xml',
         'data/mail_template_data.xml',
         'data/ir_cron_data.xml',
-
         # 'data/task_type_data.xml',
         # 'data/project_template_data.xml',
     ],

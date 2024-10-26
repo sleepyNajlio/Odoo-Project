@@ -14,7 +14,6 @@ class ProjectProject(models.Model):
     analyse_hours_pc = fields.Integer(string="Business Analyse Allocated Time (%)", required=True)
     review_hours_pc =fields.Integer(string="Code Review Allocated Time (%)", required=True)
 
-
     @api.model
     def create(self, vals):
         project = super().create(vals)
@@ -27,7 +26,6 @@ class ProjectProject(models.Model):
             # print("type_ids: " + str(project.type_ids))
         return project
 
-
     @api.constrains('analyse_hours_pc', 'review_hours_pc')
     def check_percentage(self):
         if self.analyse_hours_pc < 0 or self.analyse_hours_pc > 100:
@@ -35,11 +33,8 @@ class ProjectProject(models.Model):
         if self.review_hours_pc < 0 or self.review_hours_pc > 100:
             raise ValidationError("The code review allocated time must be between 0 and 100")
 
-    _logger = logging.getLogger(__name__)
-
     def timesheet_tracking_check(self):
         print("timesheet tracking check")
-        # self._logger.info("timesheet tracking check")
         today = datetime.now().date()
         start_of_week = today - timedelta(days=today.weekday())
         end_of_week = start_of_week + timedelta(days=4)
@@ -66,20 +61,13 @@ class ProjectProject(models.Model):
         for timesheet in user_timesheet:
             date_range[timesheet.date] += timesheet.unit_amount
 
+        template = self.env.ref('leansoft_project.mail_template_timesheet_weekly_reminder_user')
         template_context = {
             'date_range': date_range,
             'date_start': start_of_week,
             'date_stop': end_of_week,
-
         }
-
-
-
-        template = self.env.ref('leansoft_project.mail_template_timesheet_weekly_reminder_user')
-
         template.with_context(template_context).send_mail(user.id, force_send=True)
-
-        # Optionally, print to the console (for debug purposes)
         print(f"Reminder sent to {user.name} to fill timesheet.")
 
 
