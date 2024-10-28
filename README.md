@@ -3,6 +3,10 @@
 
 This project is an Odoo module that extends the functionality of the project module. It includes additional models, fields, and business logic to manage sprints, tasks, and project templates.
 
+## Requirements
+- Odoo 17
+- Python 3.10 or later
+
 ## Installation
 1. Clone the repository into your Odoo addons directory:
 git clone https://github.com/sleepyNajlio/Odoo-Project.git
@@ -21,4 +25,3 @@ git clone https://github.com/sleepyNajlio/Odoo-Project.git
 - **Stage Control:** Enforce rules for task creation and updates based on the stage, such as requiring estimations or timesheet entries.
 - **Task Filters:** Filter tasks based on the last modification date, including options for changes made today, this week, or this month.
 - **Custom Theme:** Customize the look and feel of the project module with a custom theme.
-- 
