@@ -17,13 +17,10 @@ class ProjectProject(models.Model):
     @api.model
     def create(self, vals):
         project = super().create(vals)
-        # print('project: ' + str(vals))
         if 'project_template_id' in vals.keys() and vals['project_template_id']:
             project_template = self.env['project.template'].browse(vals['project_template_id'])
             stage_ids = project_template.task_type_ids
-            # print('stages: ' + str(stage_ids.mapped('id')))
             project.type_ids = stage_ids
-            # print("type_ids: " + str(project.type_ids))
         return project
 
     @api.constrains('analyse_hours_pc', 'review_hours_pc')
@@ -34,7 +31,6 @@ class ProjectProject(models.Model):
             raise ValidationError("The code review allocated time must be between 0 and 100")
 
     def timesheet_tracking_check(self):
-        print("timesheet tracking check")
         today = datetime.now().date()
         start_of_week = today - timedelta(days=today.weekday())
         end_of_week = start_of_week + timedelta(days=4)
@@ -51,8 +47,7 @@ class ProjectProject(models.Model):
                 group_timesheets[user] = 0
 
         for user in group_timesheets.keys():
-            if group_timesheets[user] < 32:
-                print('send reminder to ' + str(user.name))
+            if group_timesheets[user] < 40:
                 self._send_timesheet_reminder(user, start_of_week, end_of_week)
 
     def _send_timesheet_reminder(self, user, start_of_week, end_of_week):

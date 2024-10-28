@@ -29,7 +29,7 @@
                     <field name="name" String="Template Name" />
                 </group>
                 <field name="task_type_ids">
-                    <tree>
+                    <tree editable="buttom" multi_edit="1">
                         <field name="sequence" widget="handle"/>
                         <field name="name"/>
                         <field name="fold" />

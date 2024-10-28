@@ -25,16 +25,10 @@ class ProjectSprint(models.Model):
     cancel_stage_id = fields.Many2one('project.task.type', string='Cancel Stage', domain="[('project_ids', '=', project_id)]", required=True)
     start_stage_sequence = fields.Integer(related='start_stage_id.sequence', store=True)
 
-
-    @api.onchange('start_stage_id')
-    def _onchange_start_stage_id(self):
-        print("start_stage_id: " + str(self.start_stage_id) + str())
-
     @api.depends('task_ids')
     def _compute_tasks_count(self):
         for sprint in self:
             sprint.tasks_count = len(sprint.task_ids)
-
 
     @api.depends('task_ids.progress')
     def _compute_sprint_progress(self):
@@ -71,10 +65,3 @@ class ProjectSprint(models.Model):
     def action_done_sprint(self):
         for record in self:
             record.state = 'done'
-
-
-
-
-
-
-
