@@ -5,7 +5,7 @@ This project is an Odoo module that extends the functionality of the project mod
 
 ## Installation
 1. Clone the repository into your Odoo addons directory:
-git clone https://github.com/sleepyNajlio/your-repo-name.git
+git clone https://github.com/sleepyNajlio/Odoo-Project.git
 2. Restart the Odoo server to load the new module.
 3. Enable the developer mode in Odoo and update Apps list.
 4. Go to the Apps menu in Odoo and install the module.
